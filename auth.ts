@@ -9,6 +9,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // Actually, for Edge compatibility, middleware should use authConfig.
     // auth.ts uses the adapter.
     ...authConfig,
+    trustHost: true,
     callbacks: {
         ...authConfig.callbacks,
         // Override session to include user ID from database if strategy is "database" (default with adapter)

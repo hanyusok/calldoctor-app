@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { prisma } from "@/app/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -97,4 +97,8 @@ export async function removeFamilyMember(id: string) {
         });
         revalidatePath('/profile');
     }
+}
+
+export async function logout() {
+    await signOut();
 }

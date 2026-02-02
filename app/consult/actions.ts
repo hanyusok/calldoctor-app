@@ -79,3 +79,9 @@ export async function getDoctors({
 
     return doctors;
 }
+
+export async function getDoctorById(id: string) {
+    return await prisma.doctor.findUnique({
+        where: { id },
+    });
+}

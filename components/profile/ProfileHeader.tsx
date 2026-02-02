@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Edit2, Check, X } from 'lucide-react';
+import { Edit2, Check, X, LogOut } from 'lucide-react';
+import { logout } from '@/app/profile/actions';
 
 interface ProfileHeaderProps {
     user: {
@@ -80,6 +81,13 @@ export default function ProfileHeader({ user, onUpdateName }: ProfileHeaderProps
                     )}
                     <p className="text-primary-100 text-sm">{user.email}</p>
                 </div>
+                <button
+                    onClick={() => logout()}
+                    className="p-2 bg-white/20 rounded-full hover:bg-white/30 text-white transition-colors"
+                    aria-label="Logout"
+                >
+                    <LogOut size={20} />
+                </button>
             </div>
         </div>
     );
