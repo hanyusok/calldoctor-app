@@ -34,9 +34,8 @@ export async function getPaymentLink(appointmentId: string) {
         CPID: MERCHANT_ID,
         ORDERNO: orderNo,
         AMOUNT: amount,
-        PAYMETHOD: 'TOTAL',
-        TYPE: 'M',
-        VALID_TIME: '1800'
+        PAYMETHOD: 'CARD', // Changed from TOTAL
+        TYPE: 'P',        // Changed from M
     });
 
     if (!hashResult.success || !hashResult.KIWOOM_ENC) {
@@ -56,8 +55,8 @@ export async function getPaymentLink(appointmentId: string) {
         BUYER_EMAIL: session.user.email || "",
         TIMESTAMP: timestamp,
         SIGNATURE: hash,
-        PAYMETHOD: 'TOTAL', // Must match the hash param
-        VALID_TIME: '1800',  // Must match the hash param
+        PAYMETHOD: 'CARD', // Must match the hash param
+        TYPE: 'P',         // Must match the hash param
         // Using localhost for callback/return URLs for this demo
         RETURN_URL: `http://localhost:3000/api/payment/callback`
     });

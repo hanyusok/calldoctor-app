@@ -10,6 +10,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     // Actually, for Edge compatibility, middleware should use authConfig.
     // auth.ts uses the adapter.
     ...authConfig,
+    secret: process.env.AUTH_SECRET,
     providers: [
         ...authConfig.providers,
         Credentials({
