@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react';
 import { checkNewConfirmations } from '@/app/[locale]/(mobile)/dashboard/actions';
 import { useRouter } from 'next/navigation';
 import { Bell } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function NotificationWatcher({ initialConfirmedIds }: { initialConfirmedIds: string[] }) {
+    const t = useTranslations('Dashboard');
     const router = useRouter();
     const [knownIds, setKnownIds] = useState<string[]>(initialConfirmedIds);
     const [notification, setNotification] = useState<{ message: string, id: string } | null>(null);
@@ -18,7 +20,7 @@ export default function NotificationWatcher({ initialConfirmedIds }: { initialCo
                 if (newConfirmations.length > 0) {
                     const latest = newConfirmations[0] as any;
                     setNotification({
-                        message: `${latest.doctor.name} has confirmed the price ($${latest.price}).`,
+                        message: t('card.price_confirmed_msg', { doctor: latest.doctor.name, price: latest.price }),
                         id: latest.id
                     });
 
@@ -38,7 +40,7 @@ export default function NotificationWatcher({ initialConfirmedIds }: { initialCo
         }, 5000); // Poll every 5 seconds
 
         return () => clearInterval(interval);
-    }, [knownIds, router]);
+    }, [knownIds, router, t]);
 
     if (!notification) return null;
 
@@ -49,7 +51,7 @@ export default function NotificationWatcher({ initialConfirmedIds }: { initialCo
                     <Bell size={20} />
                 </div>
                 <div>
-                    <h3 className="font-bold text-gray-900 text-sm">Action Required</h3>
+                    <h3 className="font-bold text-gray-900 text-sm">{t('action_required')}</h3>
                     <p className="text-gray-600 text-xs">{notification.message}</p>
                 </div>
                 <button

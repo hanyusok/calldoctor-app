@@ -3,6 +3,7 @@
 import React from 'react';
 import { Star, MapPin, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 interface Doctor {
     id: string;
@@ -17,6 +18,7 @@ interface Doctor {
 }
 
 export default function DoctorCard({ doctor }: { doctor: Doctor }) {
+    const t = useTranslations('DoctorCard');
     return (
         <Link href={`/doctor/${doctor.id}`}>
             <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex gap-4 hover:border-primary-200 transition-colors cursor-pointer">
@@ -28,7 +30,7 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
                     />
                     {doctor.isAvailable && (
                         <div className="absolute -bottom-2 -nav-right-2 left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full whitespace-nowrap border-2 border-white">
-                            Available
+                            {t('avail')}
                         </div>
                     )}
                 </div>
@@ -51,16 +53,16 @@ export default function DoctorCard({ doctor }: { doctor: Doctor }) {
                     </div>
 
                     <p className="mt-2 text-xs text-gray-400 line-clamp-2 leading-relaxed">
-                        {doctor.bio || 'experienced specialist dedicated to patient care.'}
+                        {doctor.bio || t('bio_default')}
                     </p>
 
                     <div className="mt-3 flex items-center gap-3 text-xs">
                         <div className="flex items-center gap-1 text-gray-400">
                             <Clock size={12} />
-                            <span>Next: Today 2:00 PM</span>
+                            <span>{t('next_available', { time: 'Today 2:00 PM' })}</span>
                         </div>
                         <div className="text-primary-500 font-medium">
-                            {doctor.patients > 500 ? `${(doctor.patients / 1000).toFixed(1)}k+ patients` : `${doctor.patients} patients`}
+                            {doctor.patients > 500 ? t('patients_k', { count: (doctor.patients / 1000).toFixed(1) }) : t('patients', { count: doctor.patients })}
                         </div>
                     </div>
                 </div>

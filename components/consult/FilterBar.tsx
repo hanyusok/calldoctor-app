@@ -2,17 +2,19 @@
 
 import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function FilterBar() {
+    const t = useTranslations('FilterBar');
     const router = useRouter();
     const searchParams = useSearchParams();
     const currentFilter = searchParams.get('filter');
 
     const filters = [
-        { id: 'all', label: 'All' },
-        { id: 'available', label: 'Available Now' },
-        { id: 'female', label: 'Female Doctor' },
-        { id: 'rating', label: 'High Ratings' },
+        { id: 'all', label: t('all') },
+        { id: 'available', label: t('available_now') },
+        { id: 'female', label: t('female_doctor') },
+        { id: 'rating', label: t('top_rated') },
         // { id: 'nearest', label: 'Nearest' }, // Removed for now as mocking logic is weak
     ];
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Users, Plus, UserPlus, X, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface FamilyMember {
     id: string;
@@ -20,6 +21,7 @@ interface FamilyListProps {
 }
 
 export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyListProps) {
+    const t = useTranslations('Family');
     const [isAdding, setIsAdding] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -109,7 +111,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
             <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg text-gray-800 flex items-center gap-2">
                     <Users size={20} className="text-primary-500" />
-                    Family Members
+                    {t('title')}
                 </h3>
                 <button
                     onClick={() => setIsAdding(true)}
@@ -122,7 +124,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
             {isAdding && (
                 <div className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
                     <div className="flex justify-between items-center mb-3">
-                        <h4 className="text-sm font-semibold text-gray-700">Add New Member</h4>
+                        <h4 className="text-sm font-semibold text-gray-700">{t('add_new')}</h4>
                         <button onClick={() => setIsAdding(false)} className="text-gray-400 hover:text-gray-600">
                             <X size={16} />
                         </button>
@@ -130,7 +132,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                     <form onSubmit={handleSubmit} className="space-y-3">
                         <input
                             type="text"
-                            placeholder="Name"
+                            placeholder={t('name_placeholder')}
                             className="w-full p-2 text-sm rounded-lg border border-gray-200"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -138,7 +140,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                         />
                         <input
                             type="text"
-                            placeholder="RIN (YYMMDD-XXXXXXX)"
+                            placeholder={t('rin_placeholder')}
                             className="w-full p-2 text-sm rounded-lg border border-gray-200"
                             value={formData.residentNumber}
                             onChange={handleRINChange}
@@ -146,7 +148,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                         <div className="flex gap-2">
                             <input
                                 type="number"
-                                placeholder="Age"
+                                placeholder={t('age_placeholder')}
                                 className="w-1/3 p-2 text-sm rounded-lg border border-gray-200 bg-gray-50"
                                 value={formData.age}
                                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
@@ -158,10 +160,10 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                                 value={formData.relation}
                                 onChange={(e) => setFormData({ ...formData, relation: e.target.value })}
                             >
-                                <option value="child">Child</option>
-                                <option value="parent">Parent</option>
-                                <option value="spouse">Spouse</option>
-                                <option value="sibling">Sibling</option>
+                                <option value="child">{t('relation_child')}</option>
+                                <option value="parent">{t('relation_parent')}</option>
+                                <option value="spouse">{t('relation_spouse')}</option>
+                                <option value="sibling">{t('relation_sibling')}</option>
                             </select>
                         </div>
                         <select
@@ -170,12 +172,12 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                             onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                             disabled
                         >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="male">{t('gender_male')}</option>
+                            <option value="female">{t('gender_female')}</option>
                         </select>
                         <input
                             type="tel"
-                            placeholder="Phone Number"
+                            placeholder={t('phone_placeholder')}
                             className="w-full p-2 text-sm rounded-lg border border-gray-200"
                             value={formData.phoneNumber}
                             onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
@@ -185,7 +187,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                             disabled={loading}
                             className="w-full py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50"
                         >
-                            {loading ? 'Adding...' : 'Add Member'}
+                            {loading ? t('adding') : t('add')}
                         </button>
                     </form>
                 </div>
@@ -194,7 +196,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
             <div className="space-y-3">
                 {members.length === 0 && !isAdding && (
                     <div className="text-center py-6 text-gray-400 text-sm">
-                        No family members added yet.
+                        {t('no_members')}
                     </div>
                 )}
                 {members.map((member) => (
@@ -205,7 +207,7 @@ export default function FamilyMemberList({ members, onAdd, onRemove }: FamilyLis
                             </div>
                             <div>
                                 <p className="font-semibold text-gray-800 text-sm">{member.name}</p>
-                                <p className="text-xs text-gray-500 capitalize">{member.relation} • {member.age} yrs • {member.gender}</p>
+                                <p className="text-xs text-gray-500 capitalize">{t(`relation_${member.relation}` as any)} • {member.age} • {t(`gender_${member.gender}` as any)}</p>
                                 {member.phoneNumber && <p className="text-xs text-gray-400">{member.phoneNumber}</p>}
                                 {member.residentNumber && <p className="text-xs text-gray-400 tracking-wider">{member.residentNumber.substring(0, 8)}******</p>}
                             </div>

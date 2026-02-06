@@ -8,9 +8,11 @@ import { Calendar, Clock, MapPin, AlertCircle, CheckCircle, ArrowRight } from 'l
 import Link from 'next/link';
 import NotificationWatcher from '@/components/dashboard/NotificationWatcher';
 import PayButton from '@/components/dashboard/PayButton';
+import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardPage() {
     const session = await auth();
+    const t = await getTranslations('Dashboard');
     if (!session?.user) {
         redirect('/login');
     }
@@ -26,18 +28,28 @@ export default async function DashboardPage() {
     const initialConfirmedIds = awaitingPayment.map(a => a.id);
 
     const StatusBadge = ({ status }: { status: string }) => {
+        let label = status;
+        let className = "text-gray-500 bg-gray-50 px-2.5 py-1 rounded-full text-xs font-medium";
+
         switch (status) {
             case 'PENDING':
-                return <span className="text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-100">Requested</span>;
+                label = t('status.requested');
+                className = "text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full text-xs font-bold border border-amber-100";
+                break;
             case 'AWAITING_PAYMENT':
-                return <span className="text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full text-xs font-bold border border-blue-100">Payment Required</span>;
+                label = t('status.payment_required');
+                className = "text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full text-xs font-bold border border-blue-100";
+                break;
             case 'CONFIRMED':
-                return <span className="text-green-600 bg-green-50 px-2.5 py-1 rounded-full text-xs font-bold border border-green-100">Confirmed</span>;
+                label = t('status.confirmed');
+                className = "text-green-600 bg-green-50 px-2.5 py-1 rounded-full text-xs font-bold border border-green-100";
+                break;
             case 'COMPLETED':
-                return <span className="text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full text-xs font-bold border border-gray-200">Completed</span>;
-            default:
-                return <span className="text-gray-500 bg-gray-50 px-2.5 py-1 rounded-full text-xs font-medium">{status}</span>;
+                label = t('status.completed');
+                className = "text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full text-xs font-bold border border-gray-200";
+                break;
         }
+        return <span className={className}>{label}</span>;
     };
 
     return (
@@ -45,7 +57,7 @@ export default async function DashboardPage() {
             <NotificationWatcher initialConfirmedIds={initialConfirmedIds} />
             {/* Header (reused or simplified) */}
             <div className="bg-white sticky top-0 z-10 px-4 py-3 shadow-sm flex items-center justify-between">
-                <h1 className="text-lg font-bold text-gray-900">Dashboard</h1>
+                <h1 className="text-lg font-bold text-gray-900">{t('title')}</h1>
             </div>
 
             <div className="px-4 py-4 space-y-6">
@@ -54,7 +66,7 @@ export default async function DashboardPage() {
                 {awaitingPayment.length > 0 && (
                     <section>
                         <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                            Action Required
+                            {t('action_required')}
                             <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{awaitingPayment.length}</span>
                         </h2>
                         <div className="space-y-3">
@@ -85,7 +97,7 @@ export default async function DashboardPage() {
 
                                         <div className="flex items-center justifies-between gap-3 pt-3 border-t border-gray-100">
                                             <div className="flex-1">
-                                                <p className="text-xs text-gray-500">Consultation Fee</p>
+                                                <p className="text-xs text-gray-500">{t('card.consultation_fee')}</p>
                                                 <p className="text-lg font-bold text-gray-900">${(apt as any).price}</p>
                                             </div>
                                             <PayButton appointmentId={apt.id} price={(apt as any).price} />
@@ -100,7 +112,7 @@ export default async function DashboardPage() {
                 {/* 2. Pending Request */}
                 {pending.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Pending Requests</h2>
+                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">{t('pending')}</h2>
                         <div className="space-y-3">
                             {pending.map(apt => (
                                 <div key={apt.id} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
@@ -113,7 +125,7 @@ export default async function DashboardPage() {
                                     </div>
                                     <div className="flex items-center gap-3 text-xs text-gray-500 bg-gray-50 p-2.5 rounded-xl">
                                         <Clock size={14} />
-                                        Waiting for doctor to confirm price...
+                                        {t('card.waiting_price')}
                                     </div>
                                 </div>
                             ))}
@@ -124,7 +136,7 @@ export default async function DashboardPage() {
                 {/* 3. Upcoming */}
                 {upcoming.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">Upcoming Schedules</h2>
+                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3">{t('upcoming')}</h2>
                         <div className="space-y-3">
                             {upcoming.map(apt => (
                                 <div key={apt.id} className="bg-white p-4 rounded-2xl shadow-sm border-l-4 border-l-green-500">
@@ -136,7 +148,7 @@ export default async function DashboardPage() {
                                             </div>
                                             <div>
                                                 <h3 className="font-bold text-gray-900">{apt.doctor.name}</h3>
-                                                <p className="text-xs text-gray-500">Video Consultation</p>
+                                                <p className="text-xs text-gray-500">{t('card.video_consult')}</p>
                                             </div>
                                         </div>
                                         <div className="text-right">
@@ -146,10 +158,10 @@ export default async function DashboardPage() {
                                     </div>
                                     <div className="flex gap-2 mt-3">
                                         <button className="flex-1 py-2 rounded-lg bg-green-50 text-green-700 text-xs font-bold hover:bg-green-100 transition-colors">
-                                            Enter Room
+                                            {t('card.enter_room')}
                                         </button>
                                         <button className="px-3 py-2 rounded-lg bg-gray-50 text-gray-600 text-xs font-bold hover:bg-gray-100 transition-colors">
-                                            Details
+                                            {t('card.details')}
                                         </button>
                                     </div>
                                 </div>
@@ -161,7 +173,7 @@ export default async function DashboardPage() {
                 {/* 4. Past / Empty State */}
                 {past.length > 0 && (
                     <section>
-                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 opacity-60">Past Appointments</h2>
+                        <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 opacity-60">{t('past')}</h2>
                         <div className="space-y-3 opacity-60 grayscale-[0.5]">
                             {past.map(apt => (
                                 <div key={apt.id} className="bg-white p-4 rounded-xl border border-gray-100">
@@ -180,12 +192,12 @@ export default async function DashboardPage() {
                         <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-300">
                             <Calendar size={40} />
                         </div>
-                        <h3 className="text-gray-900 font-bold mb-1">No Appointments Yet</h3>
+                        <h3 className="text-gray-900 font-bold mb-1">{t('empty.title')}</h3>
                         <p className="text-gray-500 text-sm max-w-xs mx-auto mb-6">
-                            Find a specialist and book your first consultation today.
+                            {t('empty.desc')}
                         </p>
                         <Link href="/consult" className="px-6 py-3 bg-primary-600 text-white rounded-xl font-bold shadow-lg shadow-primary-600/30">
-                            Find a Doctor
+                            {t('empty.button')}
                         </Link>
                     </div>
                 )}

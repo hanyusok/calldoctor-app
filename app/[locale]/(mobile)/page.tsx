@@ -26,7 +26,7 @@ export default async function Home() {
             {session?.user && (
                 <div className="bg-green-100 p-4 text-center text-green-800">
                     {t('welcome_user', { name: session.user.name || "User" })}
-                    {userProfile ? " (Profile Verified)" : " (Profile Pending)"}
+                    {userProfile ? t('profile_verified') : t('profile_pending')}
                 </div>
             )}
             <HeroBanner />

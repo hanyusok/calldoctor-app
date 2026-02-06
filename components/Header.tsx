@@ -1,10 +1,20 @@
-import React from 'react';
-import { Search, MapPin, Bell } from 'lucide-react';
+'use client';
 
+import React, { useState } from 'react';
+import { Search, MapPin, Bell } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/routing';
 
 const Header = () => {
     const t = useTranslations('Header');
+    const router = useRouter();
+    const [query, setQuery] = useState('');
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        router.push(`/consult?query=${encodeURIComponent(query)}`);
+    };
+
     return (
         <header className="sticky top-0 z-50 bg-white px-4 py-3 shadow-sm">
             <div className="flex items-center justify-between mb-3">
@@ -22,13 +32,15 @@ const Header = () => {
             </div>
 
             <div className="relative">
-                <form action="/consult" method="GET">
+                <form onSubmit={handleSearch}>
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Search className="h-5 w-5 text-gray-400" />
                     </div>
                     <input
                         name="query"
                         type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
                         className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 sm:text-sm transition-all shadow-sm"
                         placeholder={t('search_placeholder')}
                     />

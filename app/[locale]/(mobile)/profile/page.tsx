@@ -1,7 +1,7 @@
 import React from 'react';
 import { auth } from "@/auth";
 import { prisma } from "@/app/lib/prisma";
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/routing';
 import Header from "@/components/Header";
 import BottomNav from "@/components/BottomNav";
 import PersonalInfoForm from "@/components/profile/PersonalInfoForm";
@@ -17,11 +17,16 @@ import {
     removeFamilyMember
 } from "./actions";
 
-export default async function ProfilePage() {
+export default async function ProfilePage({
+    params
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    const { locale } = await params;
     const session = await auth();
 
-    if (!session?.user) {
-        redirect('/login');
+    if (!session?.user?.email) {
+        redirect({ href: '/login', locale });
     }
 
     const user = await prisma.user.findUnique({

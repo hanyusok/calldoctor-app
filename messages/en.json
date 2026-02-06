@@ -2,7 +2,14 @@
     "HomePage": {
         "title": "Call Doctor",
         "welcome": "Welcome to Call Doctor",
-        "welcome_user": "Welcome back, {name}!"
+        "welcome_user": "Welcome back, {name}!",
+        "profile_verified": " (Profile Verified)",
+        "profile_pending": " (Profile Pending)"
+    },
+    "HeroBanner": {
+        "title": "Cold & Flu Season?",
+        "subtitle": "Get treated from home in 10 mins.",
+        "button": "See a Doctor Now"
     },
     "Navigation": {
         "home": "Home",
@@ -42,6 +49,7 @@
         "clear_filters": "Clear all filters"
     },
     "FilterBar": {
+        "all": "All",
         "nearest": "Nearest",
         "top_rated": "Top Rated",
         "available_now": "Available Now",
@@ -49,7 +57,110 @@
         "price": "Price"
     },
     "DoctorCard": {
-        "avail": "Avail",
-        "available_in_10_min": "Available in 10 min"
+        "avail": "Available",
+        "available_in_10_min": "Available in 10 min",
+        "bio_default": "Experienced specialist dedicated to patient care.",
+        "next_available": "Next: {time}",
+        "patients": "{count} patients",
+        "patients_k": "{count}k+ patients"
+    },
+    "Profile": {
+        "enter_name": "Enter name",
+        "edit_name": "Edit name",
+        "logout": "Logout",
+        "personal_details": "Personal Details",
+        "edit": "Edit",
+        "rin_label": "Residential ID Number (RIN)",
+        "rin_display": "Residential ID",
+        "rin_placeholder": "YYMMDD-XXXXXXX",
+        "rin_hint": "Age and Gender will be auto-calculated.",
+        "age_label": "Age",
+        "gender_label": "Gender",
+        "phone_label": "Phone Number",
+        "phone_placeholder": "010-1234-5678",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving...",
+        "not_set": "Not set",
+        "male": "Male",
+        "female": "Female",
+        "select": "Select"
+    },
+    "Insurance": {
+        "title": "Insurance",
+        "add_button": "Add Insurance",
+        "provider_label": "Provider Name",
+        "provider_placeholder": "e.g. Samsung Fire & Marine",
+        "policy_label": "Policy Number",
+        "policy_placeholder": "Policy Number",
+        "cancel": "Cancel",
+        "save": "Save Insurance",
+        "saving": "Saving...",
+        "confirm_delete": "Are you sure you want to remove this insurance?",
+        "provider_display": "PROVIDER",
+        "policy_display": "POLICY NO."
+    },
+    "Family": {
+        "title": "Family Members",
+        "add_new": "Add New Member",
+        "name_placeholder": "Name",
+        "rin_placeholder": "RIN (YYMMDD-XXXXXXX)",
+        "age_placeholder": "Age",
+        "phone_placeholder": "Phone Number",
+        "relation_child": "Child",
+        "relation_parent": "Parent",
+        "relation_spouse": "Spouse",
+        "relation_sibling": "Sibling",
+        "gender_male": "Male",
+        "gender_female": "Female",
+        "add": "Add Member",
+        "adding": "Adding...",
+        "no_members": "No family members added yet."
+    },
+    "Dashboard": {
+        "title": "Dashboard",
+        "action_required": "Action Required",
+        "pending": "Pending Requests",
+        "upcoming": "Upcoming Schedules",
+        "past": "Past Appointments",
+        "status": {
+            "requested": "Requested",
+            "payment_required": "Payment Required",
+            "confirmed": "Confirmed",
+            "completed": "Completed"
+        },
+        "empty": {
+            "title": "No Appointments Yet",
+            "desc": "Find a specialist and book your first consultation today.",
+            "button": "Find a Doctor"
+        },
+        "card": {
+            "consultation_fee": "Consultation Fee",
+            "video_consult": "Video Consultation",
+            "enter_room": "Enter Room",
+            "details": "Details",
+            "waiting_price": "Waiting for doctor to confirm price...",
+            "pay_now": "Pay Now",
+            "price_confirmed_msg": "{doctor} has confirmed the price (${price})."
+        }
+    },
+    "LoginPage": {
+        "title": "CallDoc",
+        "subtitle": "Your Personal Healthcare Assistant",
+        "heading": "Sign in to continue",
+        "no_account": "Don't have an account?",
+        "sign_up": "Sign Up",
+        "disclaimer": "By logging in, you agree to our Terms and Privacy Policy."
+    },
+    "LoginForm": {
+        "email_label": "Email",
+        "email_placeholder": "you@example.com",
+        "password_label": "Password",
+        "password_placeholder": "••••••",
+        "sign_in": "Sign In",
+        "signing_in": "Signing in...",
+        "or": "OR",
+        "kakao_login": "Login with Kakao",
+        "guest_login": "Sign in as Guest"
     }
 }

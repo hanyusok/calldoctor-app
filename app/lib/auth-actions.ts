@@ -80,7 +80,7 @@ export async function authenticate(
     formData: FormData,
 ) {
     try {
-        await signIn('credentials', Object.fromEntries(formData));
+        await signIn('credentials', { ...Object.fromEntries(formData), redirectTo: '/profile' });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

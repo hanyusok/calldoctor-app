@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Shield, Plus, Edit2, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface InsuranceProps {
     insurance: {
@@ -14,6 +15,7 @@ interface InsuranceProps {
 }
 
 export default function InsuranceCard({ insurance, onUpdate, onDelete }: InsuranceProps) {
+    const t = useTranslations('Insurance');
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         provider: insurance?.provider || '',
@@ -35,7 +37,7 @@ export default function InsuranceCard({ insurance, onUpdate, onDelete }: Insuran
     };
 
     const handleDelete = async () => {
-        if (!confirm('Are you sure you want to remove this insurance?')) return;
+        if (!confirm(t('confirm_delete'))) return;
         setLoading(true);
         try {
             await onDelete();
@@ -53,7 +55,7 @@ export default function InsuranceCard({ insurance, onUpdate, onDelete }: Insuran
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="font-semibold text-lg text-gray-800 flex items-center gap-2">
                         <Shield size={20} className="text-primary-500" />
-                        Insurance
+                        {t('title')}
                     </h3>
                 </div>
                 <button
@@ -61,7 +63,7 @@ export default function InsuranceCard({ insurance, onUpdate, onDelete }: Insuran
                     className="w-full py-3 border-2 border-dashed border-gray-200 rounded-xl text-gray-400 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 transition-colors flex items-center justify-center gap-2"
                 >
                     <Plus size={20} />
-                    Add Insurance
+                    {t('add_button')}
                 </button>
             </div>
         );
@@ -72,7 +74,7 @@ export default function InsuranceCard({ insurance, onUpdate, onDelete }: Insuran
             <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg text-gray-800 flex items-center gap-2">
                     <Shield size={20} className="text-primary-500" />
-                    Insurance
+                    {t('title')}
                 </h3>
                 {!isEditing && insurance && (
                     <div className="flex gap-2">
@@ -95,24 +97,24 @@ export default function InsuranceCard({ insurance, onUpdate, onDelete }: Insuran
             {isEditing ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">Provider Name</label>
+                        <label className="block text-xs font-medium text-gray-500 mb-1">{t('provider_label')}</label>
                         <input
                             type="text"
                             value={formData.provider}
                             onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
                             className="w-full p-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                            placeholder="e.g. Samsung Fire & Marine"
+                            placeholder={t('provider_placeholder')}
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">Policy Number</label>
+                        <label className="block text-xs font-medium text-gray-500 mb-1">{t('policy_label')}</label>
                         <input
                             type="text"
                             value={formData.policyNumber}
                             onChange={(e) => setFormData({ ...formData, policyNumber: e.target.value })}
                             className="w-full p-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                            placeholder="Policy Number"
+                            placeholder={t('policy_placeholder')}
                             required
                         />
                     </div>
@@ -122,25 +124,25 @@ export default function InsuranceCard({ insurance, onUpdate, onDelete }: Insuran
                             onClick={() => setIsEditing(false)}
                             className="flex-1 py-2 text-sm font-medium text-gray-600 bg-gray-50 rounded-xl hover:bg-gray-100"
                         >
-                            Cancel
+                            {t('cancel')}
                         </button>
                         <button
                             type="submit"
                             disabled={loading}
                             className="flex-1 py-2 text-sm font-medium text-white bg-primary-600 rounded-xl hover:bg-primary-700 disabled:opacity-50"
                         >
-                            {loading ? 'Saving...' : 'Save Insurance'}
+                            {loading ? t('saving') : t('save')}
                         </button>
                     </div>
                 </form>
             ) : (
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
                     <div className="flex flex-col gap-1">
-                        <span className="text-xs uppercase tracking-wider text-blue-500 font-semibold">Provider</span>
+                        <span className="text-xs uppercase tracking-wider text-blue-500 font-semibold">{t('provider_display')}</span>
                         <span className="font-bold text-blue-900 text-lg">{insurance?.provider}</span>
                     </div>
                     <div className="mt-4 flex flex-col gap-1">
-                        <span className="text-xs uppercase tracking-wider text-blue-500 font-semibold">Policy No.</span>
+                        <span className="text-xs uppercase tracking-wider text-blue-500 font-semibold">{t('policy_display')}</span>
                         <span className="font-mono text-blue-800">{insurance?.policyNumber}</span>
                     </div>
                 </div>

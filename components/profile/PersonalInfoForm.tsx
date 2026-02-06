@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { User, Phone, Calendar, Save, CreditCard } from 'lucide-react';
 
+import { useTranslations } from 'next-intl';
+
 interface PersonalInfoProps {
     user: {
         name?: string | null;
@@ -16,6 +18,7 @@ interface PersonalInfoProps {
 }
 
 export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) {
+    const t = useTranslations('Profile');
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         age: user.age || '',
@@ -109,14 +112,14 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
             <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg text-gray-800 flex items-center gap-2">
                     <User size={20} className="text-primary-500" />
-                    Personal Details
+                    {t('personal_details')}
                 </h3>
                 {!isEditing && (
                     <button
                         onClick={() => setIsEditing(true)}
                         className="text-sm text-primary-600 font-medium hover:text-primary-700"
                     >
-                        Edit
+                        {t('edit')}
                     </button>
                 )}
             </div>
@@ -124,52 +127,52 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
             {isEditing ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">Residential ID Number (RIN)</label>
+                        <label className="block text-xs font-medium text-gray-500 mb-1">{t('rin_label')}</label>
                         <input
                             type="text"
                             value={formData.residentNumber}
                             onChange={handleRINChange}
                             className="w-full p-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                            placeholder="YYMMDD-XXXXXXX"
+                            placeholder={t('rin_placeholder')}
                         />
-                        <p className="text-[10px] text-gray-400 mt-1">Age and Gender will be auto-calculated.</p>
+                        <p className="text-[10px] text-gray-400 mt-1">{t('rin_hint')}</p>
                     </div>
 
                     <div className="flex gap-4">
                         <div className="flex-1">
-                            <label className="block text-xs font-medium text-gray-500 mb-1">Age</label>
+                            <label className="block text-xs font-medium text-gray-500 mb-1">{t('age_label')}</label>
                             <input
                                 type="number"
                                 value={formData.age}
                                 onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                                 className="w-full p-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-100 bg-gray-50"
-                                placeholder="Age"
+                                placeholder={t('age_label')}
                                 readOnly // Auto-calculated usually, but can enable if needed
                             />
                         </div>
                         <div className="flex-1">
-                            <label className="block text-xs font-medium text-gray-500 mb-1">Gender</label>
+                            <label className="block text-xs font-medium text-gray-500 mb-1">{t('gender_label')}</label>
                             <select
                                 value={formData.gender}
                                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                                 className="w-full p-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-100 bg-gray-50"
                                 disabled // Auto-calculated
                             >
-                                <option value="">Select</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="">{t('select')}</option>
+                                <option value="male">{t('male')}</option>
+                                <option value="female">{t('female')}</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-xs font-medium text-gray-500 mb-1">Phone Number</label>
+                        <label className="block text-xs font-medium text-gray-500 mb-1">{t('phone_label')}</label>
                         <input
                             type="tel"
                             value={formData.phoneNumber}
                             onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                             className="w-full p-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-100"
-                            placeholder="010-1234-5678"
+                            placeholder={t('phone_placeholder')}
                         />
                     </div>
                     <div className="flex gap-2 pt-2">
@@ -178,7 +181,7 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
                             onClick={() => setIsEditing(false)}
                             className="flex-1 py-2 text-sm font-medium text-gray-600 bg-gray-50 rounded-xl hover:bg-gray-100"
                         >
-                            Cancel
+                            {t('cancel')}
                         </button>
                         <button
                             type="submit"
@@ -186,7 +189,7 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
                             className="flex-1 py-2 text-sm font-medium text-white bg-primary-600 rounded-xl hover:bg-primary-700 disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             <Save size={16} />
-                            {loading ? 'Saving...' : 'Save'}
+                            {loading ? t('saving') : t('save')}
                         </button>
                     </div>
                 </form>
@@ -197,9 +200,9 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
                             <CreditCard size={16} />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500">Residential ID</p>
+                            <p className="text-xs text-gray-500">{t('rin_display')}</p>
                             <p className="font-medium text-gray-800 tracking-wider">
-                                {user.residentNumber ? user.residentNumber.substring(0, 8) + '******' : 'Not set'}
+                                {user.residentNumber ? user.residentNumber.substring(0, 8) + '******' : t('not_set')}
                             </p>
                         </div>
                     </div>
@@ -210,7 +213,7 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
                                 <span className="font-bold text-xs">{user.age || '-'}</span>
                             </div>
                             <div>
-                                <p className="text-xs text-gray-500">Age</p>
+                                <p className="text-xs text-gray-500">{t('age_label')}</p>
                                 <p className="font-medium text-gray-800">{user.age || '-'}</p>
                             </div>
                         </div>
@@ -219,8 +222,8 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
                                 <User size={16} />
                             </div>
                             <div>
-                                <p className="text-xs text-gray-500">Gender</p>
-                                <p className="font-medium text-gray-800 capitalize">{user.gender || '-'}</p>
+                                <p className="text-xs text-gray-500">{t('gender_label')}</p>
+                                <p className="font-medium text-gray-800 capitalize">{user.gender ? t(user.gender as 'male' | 'female') : '-'}</p>
                             </div>
                         </div>
                     </div>
@@ -230,8 +233,8 @@ export default function PersonalInfoForm({ user, onUpdate }: PersonalInfoProps) 
                             <Phone size={16} />
                         </div>
                         <div>
-                            <p className="text-xs text-gray-500">Phone</p>
-                            <p className="font-medium text-gray-800">{user.phoneNumber || 'Not set'}</p>
+                            <p className="text-xs text-gray-500">{t('phone_label')}</p>
+                            <p className="font-medium text-gray-800">{user.phoneNumber || t('not_set')}</p>
                         </div>
                     </div>
                 </div>

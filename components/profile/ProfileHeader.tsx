@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Edit2, Check, X, LogOut } from 'lucide-react';
 import { logout } from '@/app/[locale]/(mobile)/profile/actions';
 
+import { useTranslations } from 'next-intl';
+
 interface ProfileHeaderProps {
     user: {
         name?: string | null;
@@ -13,6 +15,7 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ user, onUpdateName }: ProfileHeaderProps) {
+    const t = useTranslations('Profile');
     const [isEditing, setIsEditing] = useState(false);
     const [name, setName] = useState(user.name || '');
     const [loading, setLoading] = useState(false);
@@ -44,7 +47,7 @@ export default function ProfileHeader({ user, onUpdateName }: ProfileHeaderProps
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className="bg-white/10 border border-white/30 rounded px-2 py-1 text-white placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white w-full max-w-[200px]"
-                                placeholder="Enter name"
+                                placeholder={t('enter_name')}
                                 autoFocus
                             />
                             <button
@@ -73,7 +76,7 @@ export default function ProfileHeader({ user, onUpdateName }: ProfileHeaderProps
                                     setIsEditing(true);
                                 }}
                                 className="p-1.5 rounded-full text-white/70 hover:bg-white/20 hover:text-white transition-all"
-                                aria-label="Edit name"
+                                aria-label={t('edit_name')}
                             >
                                 <Edit2 size={14} />
                             </button>
@@ -84,7 +87,7 @@ export default function ProfileHeader({ user, onUpdateName }: ProfileHeaderProps
                 <button
                     onClick={() => logout()}
                     className="p-2 bg-white/20 rounded-full hover:bg-white/30 text-white transition-colors"
-                    aria-label="Logout"
+                    aria-label={t('logout')}
                 >
                     <LogOut size={20} />
                 </button>
