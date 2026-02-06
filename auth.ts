@@ -3,6 +3,8 @@ import Credentials from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/app/lib/prisma"
 import { authConfig } from "./auth.config"
+import { z } from "zod"
+import bcrypt from "bcryptjs"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -14,6 +16,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     providers: [
         ...authConfig.providers,
         Credentials({
+            async authorize(credentials) {
+                const parsedCredentials = z
+                    .object({ email: z.string().email(), password: z.string().min(6) })
+                    .safeParse(credentials);
+
+                if (parsedCredentials.success) {
+                    const { email, password } = parsedCredentials.data;
+                    const user = await prisma.user.findUnique({ where: { email } });
+                    if (!user) return null;
+
+                    // Allow users created without password (social login) to potentially set one or just fail?
+                    // For now, if no password, return null (or maybe they should login with provider)
+                    if (!user.password) return null;
+
+                    const passwordsMatch = await bcrypt.compare(password, user.password);
+
+                    if (passwordsMatch) return user;
+                }
+
+                console.log('Invalid credentials');
+                return null;
+            },
+        }),
+        Credentials({
+            id: 'guest',
             name: "Guest",
             credentials: {
                 action: { label: "Action", type: "text" }
