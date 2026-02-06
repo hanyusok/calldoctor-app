@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs"
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
     adapter: PrismaAdapter(prisma),
-    session: { strategy: "jwt" }, // Middleware auth often works better with JWT or we keep database but separate the middleware config.
     // Actually, for Edge compatibility, middleware should use authConfig.
     // auth.ts uses the adapter.
     ...authConfig,

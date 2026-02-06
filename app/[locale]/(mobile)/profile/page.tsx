@@ -24,14 +24,16 @@ export default async function ProfilePage({
 }) {
     const { locale } = await params;
     const session = await auth();
+    console.log('ProfilePage Session:', JSON.stringify(session, null, 2)); // DEBUG
     const userEmail = session?.user?.email;
 
     if (!userEmail) {
+        console.log('ProfilePage: No user email, redirecting to login'); // DEBUG
         redirect({ href: '/login', locale });
     }
 
     const user = await prisma.user.findUnique({
-        where: { email: userEmail },
+        where: { email: userEmail as string },
         include: {
             insurance: true,
             familyMembers: true,

@@ -3,11 +3,12 @@
 import { useActionState } from 'react';
 import { authenticate } from '@/app/lib/auth-actions';
 import { signIn } from "next-auth/react"
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function LoginForm() {
     const t = useTranslations('LoginForm');
-    const [errorMessage, action, isPending] = useActionState(authenticate, undefined);
+    const locale = useLocale();
+    const [errorMessage, action, isPending] = useActionState(authenticate.bind(null, locale), undefined);
 
     return (
         <div className="w-full flex flex-col gap-4">
@@ -53,7 +54,7 @@ export default function LoginForm() {
             </div>
 
             <button
-                onClick={() => signIn("kakao", { callbackUrl: "/profile" })}
+                onClick={() => signIn("kakao", { callbackUrl: `/${locale}/profile` })}
                 className="w-full flex items-center justify-center gap-2 bg-[#FEE500] hover:bg-[#FDD835] text-[#191919] font-medium py-3 px-4 rounded-xl transition-colors"
                 type="button"
             >
@@ -64,7 +65,7 @@ export default function LoginForm() {
             </button>
 
             <button
-                onClick={() => signIn("credentials", { action: "guest", callbackUrl: "/profile" })}
+                onClick={() => signIn("credentials", { action: "guest", callbackUrl: `/${locale}/profile` })}
                 className="w-full flex items-center justify-center gap-2 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium py-3 px-4 rounded-xl transition-colors border border-gray-200"
                 type="button"
             >

@@ -76,11 +76,12 @@ export async function registerUser(prevState: unknown, formData: FormData) {
 }
 
 export async function authenticate(
+    locale: string,
     prevState: string | undefined,
     formData: FormData,
 ) {
     try {
-        await signIn('credentials', { ...Object.fromEntries(formData), redirectTo: '/profile' });
+        await signIn('credentials', { ...Object.fromEntries(formData), redirectTo: `/${locale}/profile` });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

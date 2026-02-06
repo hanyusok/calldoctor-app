@@ -6,6 +6,7 @@ import { routing } from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 export default NextAuth(authConfig).auth((req) => {
+    // console.log('Middleware Auth:', req.auth); // DEBUG (req.auth is the session)
     return intlMiddleware(req);
 });
 

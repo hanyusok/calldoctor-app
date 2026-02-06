@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function DateTimeSelection({ doctorId }: { doctorId: string }) {
     const router = useRouter();
+    const t = useTranslations('Booking');
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -125,7 +127,7 @@ export default function DateTimeSelection({ doctorId }: { doctorId: string }) {
             <div className="border-t border-gray-100 p-4">
                 <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
                     <Clock size={16} className="text-primary-500" />
-                    Available Time
+                    {t('available_time')}
                 </h4>
                 {selectedDate ? (
                     <div className="grid grid-cols-3 gap-3">
@@ -146,7 +148,7 @@ export default function DateTimeSelection({ doctorId }: { doctorId: string }) {
                     </div>
                 ) : (
                     <div className="text-center py-8 bg-gray-50 rounded-xl border border-dashed border-gray-200 text-gray-400 text-sm">
-                        Please select a date above to see available times
+                        {t('select_date_prompt')}
                     </div>
                 )}
             </div>
@@ -163,7 +165,7 @@ export default function DateTimeSelection({ doctorId }: { doctorId: string }) {
                             : 'bg-gray-300 shadow-none cursor-not-allowed'}
                     `}
                 >
-                    Continue to Patient Details
+                    {t('continue_to_patient_details')}
                 </button>
             </div>
         </div>

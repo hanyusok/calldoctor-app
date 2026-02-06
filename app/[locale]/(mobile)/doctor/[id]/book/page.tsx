@@ -4,9 +4,11 @@ import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import DateTimeSelection from '@/components/booking/DateTimeSelection';
+import { getTranslations } from 'next-intl/server';
 
 export default async function BookingDatePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
+    const t = await getTranslations('Booking');
     const doctor = await getDoctorById(id);
 
     if (!doctor) {
@@ -21,8 +23,8 @@ export default async function BookingDatePage({ params }: { params: Promise<{ id
                     <ChevronLeft size={24} />
                 </Link>
                 <div className="flex-1">
-                    <h1 className="text-lg font-bold text-gray-900 leading-tight">Select Schedule</h1>
-                    <p className="text-xs text-gray-500">Step 1 of 3</p>
+                    <h1 className="text-lg font-bold text-gray-900 leading-tight">{t('select_schedule')}</h1>
+                    <p className="text-xs text-gray-500">{t('step_1_of_3')}</p>
                 </div>
             </div>
 
