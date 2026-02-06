@@ -4,8 +4,10 @@ import { useActionState } from 'react';
 import { registerUser } from '@/app/lib/auth-actions';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function SignupPage() {
+    const t = useTranslations('SignupPage');
     const [state, action, isPending] = useActionState(registerUser, undefined);
     const router = useRouter();
 
@@ -18,14 +20,14 @@ export default function SignupPage() {
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
             <div className="w-full max-w-sm flex flex-col items-center gap-6">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-primary-500 mb-2">Create Account</h1>
-                    <p className="text-gray-500">Sign up to get started</p>
+                    <h1 className="text-3xl font-bold text-primary-500 mb-2">{t('title')}</h1>
+                    <p className="text-gray-500">{t('subtitle')}</p>
                 </div>
 
                 <div className="w-full bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
                     <form action={action} className="flex flex-col gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('name_label')}</label>
                             <input
                                 name="name"
                                 type="text"
@@ -37,7 +39,7 @@ export default function SignupPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('email_label')}</label>
                             <input
                                 name="email"
                                 type="email"
@@ -49,7 +51,7 @@ export default function SignupPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('password_label')}</label>
                             <input
                                 name="password"
                                 type="password"
@@ -61,7 +63,7 @@ export default function SignupPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">{t('confirm_password_label')}</label>
                             <input
                                 name="confirmPassword"
                                 type="password"
@@ -79,14 +81,14 @@ export default function SignupPage() {
                             type="submit"
                             className="w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-xl transition-colors mt-2 disabled:opacity-50"
                         >
-                            {isPending ? 'Creating Account...' : 'Sign Up'}
+                            {isPending ? t('creating_account') : t('sign_up_button')}
                         </button>
                     </form>
 
                     <div className="mt-6 text-center text-sm text-gray-500">
-                        Already have an account?{' '}
+                        {t('existing_account')}{' '}
                         <Link href="/login" className="text-primary-600 font-semibold hover:underline">
-                            Sign In
+                            {t('sign_in_link')}
                         </Link>
                     </div>
                 </div>

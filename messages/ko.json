@@ -162,5 +162,30 @@
         "or": "또는",
         "kakao_login": "카카오 로그인",
         "guest_login": "게스트로 시작하기"
+    },
+    "DoctorDetails": {
+        "title": "의사 프로필",
+        "rating": "평점",
+        "patients": "환자 수",
+        "years": "경력",
+        "about": "의사 소개",
+        "availability": "진료 가능 시간",
+        "next_available": "다음 진료",
+        "today": "오늘",
+        "fee_label": "진료비",
+        "book_button": "진료 예약하기",
+        "about_fallback": "{name}님은 최고의 진료를 제공하기 위해 노력하는 {specialty} 전문의입니다."
+    },
+    "SignupPage": {
+        "title": "계정 생성",
+        "subtitle": "서비스 이용을 위해 가입하세요",
+        "name_label": "이름",
+        "email_label": "이메일",
+        "password_label": "비밀번호",
+        "confirm_password_label": "비밀번호 확인",
+        "sign_up_button": "회원가입",
+        "creating_account": "가입 중...",
+        "existing_account": "이미 계정이 있으신가요?",
+        "sign_in_link": "로그인"
     }
 }

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Star, MapPin, Clock, ChevronLeft, Calendar, Shield } from 'lucide-react';
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
+import { getTranslations } from 'next-intl/server';
 
 export default async function DoctorDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -12,6 +13,7 @@ export default async function DoctorDetailPage({ params }: { params: Promise<{ i
     if (!doctor) {
         notFound();
     }
+    const t = await getTranslations('DoctorDetails');
 
     return (
         <div className="bg-gray-50 min-h-screen pb-24">
@@ -19,7 +21,7 @@ export default async function DoctorDetailPage({ params }: { params: Promise<{ i
                 <Link href="/consult" className="text-gray-600 hover:text-gray-900">
                     <ChevronLeft size={24} />
                 </Link>
-                <h1 className="text-lg font-bold text-gray-900">Doctor Profile</h1>
+                <h1 className="text-lg font-bold text-gray-900">{t('title')}</h1>
             </div>
 
             <div className="px-4 py-4 space-y-4">
@@ -46,7 +48,7 @@ export default async function DoctorDetailPage({ params }: { params: Promise<{ i
                             <Star size={16} className="text-yellow-500 fill-yellow-500" />
                             <div className="flex items-baseline gap-1">
                                 <span className="font-bold text-gray-900">{doctor.rating.toFixed(1)}</span>
-                                <span className="text-xs text-gray-500">Rating</span>
+                                <span className="text-xs text-gray-500">{t('rating')}</span>
                             </div>
                         </div>
                         <div className="w-px h-8 bg-gray-100"></div>
@@ -55,14 +57,14 @@ export default async function DoctorDetailPage({ params }: { params: Promise<{ i
                                 <span className="font-bold text-gray-900">
                                     {doctor.patients > 1000 ? `${(doctor.patients / 1000).toFixed(1)}k+` : doctor.patients}
                                 </span>
-                                <span className="text-xs text-gray-500">Patients</span>
+                                <span className="text-xs text-gray-500">{t('patients')}</span>
                             </div>
                         </div>
                         <div className="w-px h-8 bg-gray-100"></div>
                         <div className="flex-1 flex items-center justify-center gap-1.5">
                             <div className="flex items-baseline gap-1">
                                 <span className="font-bold text-gray-900">5+</span>
-                                <span className="text-xs text-gray-500">Years</span>
+                                <span className="text-xs text-gray-500">{t('years')}</span>
                             </div>
                         </div>
                     </div>
@@ -70,23 +72,23 @@ export default async function DoctorDetailPage({ params }: { params: Promise<{ i
 
                 {/* About Section */}
                 <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                    <h3 className="font-bold text-lg mb-3">About Doctor</h3>
+                    <h3 className="font-bold text-lg mb-3">{t('about')}</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
-                        {doctor.bio || `${doctor.name} is a highly experienced ${doctor.specialty} specialist committed to providing the best medical care. With a focus on patient well-being, they bring a wealth of knowledge and expertise to every consultation.`}
+                        {doctor.bio || t('about_fallback', { name: doctor.name, specialty: doctor.specialty })}
                     </p>
                 </div>
 
                 {/* Availability */}
                 <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-                    <h3 className="font-bold text-lg mb-3">Availability</h3>
+                    <h3 className="font-bold text-lg mb-3">{t('availability')}</h3>
                     <div className="flex items-center justify-between p-3 bg-blue-50 rounded-xl text-blue-700">
                         <div className="flex items-center gap-3">
                             <div className="p-2 bg-white rounded-lg">
                                 <Calendar size={20} className="text-blue-600" />
                             </div>
-                            <span className="font-medium">Next Available</span>
+                            <span className="font-medium">{t('next_available')}</span>
                         </div>
-                        <span className="font-bold">Today</span>
+                        <span className="font-bold">{t('today')}</span>
                     </div>
                 </div>
             </div>
@@ -94,14 +96,14 @@ export default async function DoctorDetailPage({ params }: { params: Promise<{ i
             {/* Bottom Action */}
             <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-100 p-4 pb-8 flex items-center justify-between gap-4 z-20">
                 <div className="flex flex-col">
-                    <span className="text-xs text-gray-400">Consultation Fee</span>
+                    <span className="text-xs text-gray-400">{t('fee_label')}</span>
                     <span className="text-lg font-bold text-primary-600">$50.00</span>
                 </div>
                 <Link
                     href={`/doctor/${id}/book`}
                     className="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-primary-600/30 hover:bg-primary-700 transition-all active:scale-95 text-center"
                 >
-                    Book Appointment
+                    {t('book_button')}
                 </Link>
             </div>
         </div>

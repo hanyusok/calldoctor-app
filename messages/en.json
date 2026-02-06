@@ -162,5 +162,30 @@
         "or": "OR",
         "kakao_login": "Login with Kakao",
         "guest_login": "Sign in as Guest"
+    },
+    "DoctorDetails": {
+        "title": "Doctor Profile",
+        "rating": "Rating",
+        "patients": "Patients",
+        "years": "Years",
+        "about": "About Doctor",
+        "availability": "Availability",
+        "next_available": "Next Available",
+        "today": "Today",
+        "fee_label": "Consultation Fee",
+        "book_button": "Book Appointment",
+        "about_fallback": "{name} is a highly experienced {specialty} specialist committed to providing the best medical care."
+    },
+    "SignupPage": {
+        "title": "Create Account",
+        "subtitle": "Sign up to get started",
+        "name_label": "Name",
+        "email_label": "Email",
+        "password_label": "Password",
+        "confirm_password_label": "Confirm Password",
+        "sign_up_button": "Sign Up",
+        "creating_account": "Creating Account...",
+        "existing_account": "Already have an account?",
+        "sign_in_link": "Sign In"
     }
 }
